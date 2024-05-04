@@ -4,6 +4,11 @@ from agents import GrassPatch, Sheep, Wolf
 
 from typing import Type, Optional, Callable
 
+import seaborn as sns
+import matplotlib.pyplot as plt
+# import numpy as np
+# import pandas as pd
+
 
 class RandomActivationByTypeFiltered(mesa.time.RandomActivationByType):
     """
@@ -154,7 +159,7 @@ class WolfSheep(mesa.Model):
         for _ in range(step_count):
             self.step()
         self.datacollector.collect(self)
-        print(self.datacollector.get_model_vars_dataframe())
+        #print(self.datacollector.get_model_vars_dataframe())
 
 
 if __name__ == "__main__":
@@ -172,3 +177,8 @@ if __name__ == "__main__":
     }
     model = WolfSheep(**args)
     model.run_model()
+    data = model.datacollector.get_model_vars_dataframe()
+
+    plt.figure()
+    sns.lineplot(data)
+    plt.show()
