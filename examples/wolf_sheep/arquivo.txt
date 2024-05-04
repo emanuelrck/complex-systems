@@ -6,4 +6,4 @@ sheep_reproduce
 initial_wolves
 wolf_reproduce
 wolf_gain_from_food
-sheep_gain_from_food
+sheep_gain_from

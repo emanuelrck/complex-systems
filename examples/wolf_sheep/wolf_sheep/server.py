@@ -1,7 +1,7 @@
 import mesa
 from wolf_sheep.agents import GrassPatch, Sheep, Wolf
 from wolf_sheep.model import WolfSheep
-import os
+
 
 def wolf_sheep_portrayal(agent):
     if agent is None:
@@ -72,13 +72,7 @@ model_params = {
     "sheep_gain_from_food": mesa.visualization.Slider("Sheep Gain From Food", 4, 1, 10),
 }
 
-with open('arquivo.txt', 'w') as arquivo:
-    # Escrever no arquivo
-    for i in model_params:
-        arquivo.write(str(i)+"\n")
-
-
-server = mesa.visualization.ModularServer(
-    WolfSheep, [canvas_element, chart_element], "Wolf Sheep Predation", model_params
-)
-server.port = 8521
+#server = mesa.visualization.ModularServer(
+#    WolfSheep, [canvas_element, chart_element], "Wolf Sheep Predation", model_params
+#)
+#server.port = 8521
