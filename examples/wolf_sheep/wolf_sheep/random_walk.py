@@ -36,6 +36,9 @@ class RandomWalker(mesa.Agent):
         """
         # Pick the next cell from the adjacent cells.
         next_moves = self.model.grid.get_neighborhood(self.pos, self.moore, True)
+        #print("-----------moves-----------")
+        #print(self.pos)
+        #print(next_moves)
         next_move = self.random.choice(next_moves)
         # Now move:
         self.model.grid.move_agent(self, next_move)
