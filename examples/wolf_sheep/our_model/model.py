@@ -158,19 +158,19 @@ class WolfSheep(mesa.Model):
         self.schedule.step()
         self.datacollector.collect(self)
 
-    def run_model(self, step_count=1000):
+    def run_model(self, step_count=500):
         for _ in range(step_count):
             self.step()
         self.datacollector.collect(self)
         #print(self.datacollector.get_model_vars_dataframe())
 
-
-if __name__ == "__main__":
+def main():
     # wolfs = [10, 15, 20]
     # sheeps = [10, 15, 20]
-    wolfs = [10]
-    sheeps = [50]
+    wolfs = list(range(10, 100, 20))
+    sheeps = list(range(30, 200, 20))
     seeds = [7123, 1287, 6372, 2651, 199]
+    #seeds = list(range(5))
 
     for wolf in wolfs:
         for sheep in sheeps:
@@ -181,41 +181,54 @@ if __name__ == "__main__":
                     "initial_sheep": sheep,
                     "initial_wolves": wolf,
                     "sheep_reproduce": 0.04,
-                    "wolf_reproduce": 0.2,
+                    "wolf_reproduce": 0.05,
                     "wolf_gain_from_food": 20,
                     "grass": True,
-                    "grass_regrowth_time": 30,
+                    "grass_regrowth_time": 20,
                     "sheep_gain_from_food": 4, 
                 }
-                random.seed(seed)
+                # random.seed(seed)
 
                 model = WolfSheep(**args)
                 model.run_model()
                 data = model.datacollector.get_model_vars_dataframe()
-                data.to_csv(f"./exp/experiment_w_{wolf}_s_{sheep}_seed_{seed}")
-                # wandb.init(
-                #     project="wolf_sheep", 
-                #     name=f"experiment_w_{wolf}_s_{sheep}_seed_{seed}", 
-                #     config={
-                #     "seed": seed,
-                # })
+                data.to_csv(f"./exp/experiment_w_{wolf}_s_{sheep}_seed_{seed}.csv")
 
-                # for index, row in data.iterrows():
-                #     wandb.log({'wolves': row['Wolves']})
-                #     wandb.log({'sheep': row['Sheep'] })
-                #     wandb.log({'grass': row['Grass'] })
-
-                # wandb.finish()
-            #paths = ["./exp/experiment_w_10_s_10_seed_7123", "./exp/experiment_w_10_s_10_seed_1287", "./exp/experiment_w_10_s_10_seed_6372", "./exp/experiment_w_10_s_10_seed_2651", "./exp/experiment_w_10_s_10_seed_199"]
-            paths = [f"./exp/experiment_w_{wolf}_s_{sheep}_seed_{seed}" for seed in seeds]
+            paths = [f"./exp/experiment_w_{wolf}_s_{sheep}_seed_{seed}.csv" for seed in seeds]
             plot_experiment(paths, f"./resources/w_{wolf}_s_{sheep}.png")
             plot_avg_std(paths, f"./resources/w_{wolf}_s_{sheep}_avg.png")
-            #fig, axes = plt.subplots(3, 1, figsize=(10, 10))
-            #for path in paths:
-            #    df = pd.read_csv(path)
-            #    sns.lineplot(df['Wolves'], ax=axes[0])
-            #    sns.lineplot(df['Sheep'], ax=axes[1])
-            #    sns.lineplot(df['Grass'], ax=axes[2])
 
-            #plt.savefig(f"./resources/w_{wolf}_s_{sheep}.png")
+def main2():
+    wolfs = [0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.10]
+    sheeps = [0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.10]
+    seeds = [7123, 1287, 6372, 2651, 199]
 
+    for wolf in wolfs:
+        for sheep in sheeps:
+            for seed in seeds:
+                args = {
+                    "width": 20,
+                    "height": 20,
+                    "initial_sheep": 50,
+                    "initial_wolves": 10,
+                    "sheep_reproduce": sheep,
+                    "wolf_reproduce": wolf,
+                    "wolf_gain_from_food": 20,
+                    "grass": True,
+                    "grass_regrowth_time": 20,
+                    "sheep_gain_from_food": 4, 
+                }
+                # random.seed(seed)
+
+                model = WolfSheep(**args)
+                model.run_model()
+                data = model.datacollector.get_model_vars_dataframe()
+                data.to_csv(f"./exp/experiment_w_{wolf}_s_{sheep}_seed_{seed}.csv")
+
+            paths = [f"./exp/experiment_w_{wolf}_s_{sheep}_seed_{seed}.csv" for seed in seeds]
+            plot_experiment(paths, f"./resources2/w_{wolf}_s_{sheep}.png")
+            plot_avg_std(paths, f"./resources2/w_{wolf}_s_{sheep}_avg.png")
+
+
+if __name__ == "__main__":
+    main2()
