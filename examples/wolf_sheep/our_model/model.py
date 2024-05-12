@@ -6,6 +6,9 @@ from typing import Type, Optional, Callable
 
 import seaborn as sns
 import matplotlib.pyplot as plt
+import random
+import pandas as pd
+from addons.visuals import plot_avg_std, plot_experiment
 # import numpy as np
 # import pandas as pd
 
@@ -155,7 +158,7 @@ class WolfSheep(mesa.Model):
         self.schedule.step()
         self.datacollector.collect(self)
 
-    def run_model(self, step_count=200):
+    def run_model(self, step_count=1000):
         for _ in range(step_count):
             self.step()
         self.datacollector.collect(self)
@@ -163,22 +166,56 @@ class WolfSheep(mesa.Model):
 
 
 if __name__ == "__main__":
-    args = {
-        "width": 20,
-        "height": 20,
-        "initial_sheep": 100,
-        "initial_wolves": 70,
-        "sheep_reproduce": 0.04,
-        "wolf_reproduce": 0.05,
-        "wolf_gain_from_food": 20,
-        "grass": True,
-        "grass_regrowth_time": 30,
-        "sheep_gain_from_food": 4, 
-    }
-    model = WolfSheep(**args)
-    model.run_model()
-    data = model.datacollector.get_model_vars_dataframe()
+    # wolfs = [10, 15, 20]
+    # sheeps = [10, 15, 20]
+    wolfs = [10]
+    sheeps = [50]
+    seeds = [7123, 1287, 6372, 2651, 199]
 
-    plt.figure()
-    sns.lineplot(data)
-    plt.show()
+    for wolf in wolfs:
+        for sheep in sheeps:
+            for seed in seeds:
+                args = {
+                    "width": 20,
+                    "height": 20,
+                    "initial_sheep": sheep,
+                    "initial_wolves": wolf,
+                    "sheep_reproduce": 0.04,
+                    "wolf_reproduce": 0.2,
+                    "wolf_gain_from_food": 20,
+                    "grass": True,
+                    "grass_regrowth_time": 30,
+                    "sheep_gain_from_food": 4, 
+                }
+                random.seed(seed)
+
+                model = WolfSheep(**args)
+                model.run_model()
+                data = model.datacollector.get_model_vars_dataframe()
+                data.to_csv(f"./exp/experiment_w_{wolf}_s_{sheep}_seed_{seed}")
+                # wandb.init(
+                #     project="wolf_sheep", 
+                #     name=f"experiment_w_{wolf}_s_{sheep}_seed_{seed}", 
+                #     config={
+                #     "seed": seed,
+                # })
+
+                # for index, row in data.iterrows():
+                #     wandb.log({'wolves': row['Wolves']})
+                #     wandb.log({'sheep': row['Sheep'] })
+                #     wandb.log({'grass': row['Grass'] })
+
+                # wandb.finish()
+            #paths = ["./exp/experiment_w_10_s_10_seed_7123", "./exp/experiment_w_10_s_10_seed_1287", "./exp/experiment_w_10_s_10_seed_6372", "./exp/experiment_w_10_s_10_seed_2651", "./exp/experiment_w_10_s_10_seed_199"]
+            paths = [f"./exp/experiment_w_{wolf}_s_{sheep}_seed_{seed}" for seed in seeds]
+            plot_experiment(paths, f"./resources/w_{wolf}_s_{sheep}.png")
+            plot_avg_std(paths, f"./resources/w_{wolf}_s_{sheep}_avg.png")
+            #fig, axes = plt.subplots(3, 1, figsize=(10, 10))
+            #for path in paths:
+            #    df = pd.read_csv(path)
+            #    sns.lineplot(df['Wolves'], ax=axes[0])
+            #    sns.lineplot(df['Sheep'], ax=axes[1])
+            #    sns.lineplot(df['Grass'], ax=axes[2])
+
+            #plt.savefig(f"./resources/w_{wolf}_s_{sheep}.png")
+
