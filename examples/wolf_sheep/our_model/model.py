@@ -164,13 +164,11 @@ class WolfSheep(mesa.Model):
         self.datacollector.collect(self)
         #print(self.datacollector.get_model_vars_dataframe())
 
-def main():
-    # wolfs = [10, 15, 20]
-    # sheeps = [10, 15, 20]
+def main1():
     wolfs = list(range(10, 100, 20))
     sheeps = list(range(30, 200, 20))
-    seeds = [7123, 1287, 6372, 2651, 199]
-    #seeds = list(range(5))
+    #seeds = [625334, 978591, 808154, 645720, 844728, 528891, 81069, 764075, 689287, 745405, 16692, 418235, 824162, 583268, 575452, 634679, 245025, 510449, 209072, 45445, 117572, 320780, 287801, 509272, 902392, 631272, 333828, 183014, 440924, 462102]
+    seeds = [625334, 978591, 808154, 645720, 844728, 528891, 81069, 764075, 689287, 745405, 16692, 418235, 824162, 583268, 575452, 634679, 245025, 510449, 209072, 45445]
 
     for wolf in wolfs:
         for sheep in sheeps:
@@ -187,7 +185,7 @@ def main():
                     "grass_regrowth_time": 20,
                     "sheep_gain_from_food": 4, 
                 }
-                # random.seed(seed)
+                random.seed(seed)
 
                 model = WolfSheep(**args)
                 model.run_model()
@@ -201,7 +199,7 @@ def main():
 def main2():
     wolfs = [0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.10]
     sheeps = [0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.10]
-    seeds = [7123, 1287, 6372, 2651, 199]
+    seeds = [625334, 978591, 808154, 645720, 844728, 528891, 81069, 764075, 689287, 745405, 16692, 418235, 824162, 583268, 575452, 634679, 245025, 510449, 209072, 45445]
 
     for wolf in wolfs:
         for sheep in sheeps:
@@ -218,7 +216,7 @@ def main2():
                     "grass_regrowth_time": 20,
                     "sheep_gain_from_food": 4, 
                 }
-                # random.seed(seed)
+                random.seed(seed)
 
                 model = WolfSheep(**args)
                 model.run_model()
@@ -231,4 +229,4 @@ def main2():
 
 
 if __name__ == "__main__":
-    main2()
+    main1()
