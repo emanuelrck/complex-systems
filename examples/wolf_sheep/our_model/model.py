@@ -165,8 +165,8 @@ class WolfSheep(mesa.Model):
         #print(self.datacollector.get_model_vars_dataframe())
 
 def main1():
-    wolfs = list(range(10, 100, 20))
-    sheeps = list(range(30, 200, 20))
+    wolfs = list(range(70, 111, 20))
+    sheeps = list(range(30, 211, 20))
     #seeds = [625334, 978591, 808154, 645720, 844728, 528891, 81069, 764075, 689287, 745405, 16692, 418235, 824162, 583268, 575452, 634679, 245025, 510449, 209072, 45445, 117572, 320780, 287801, 509272, 902392, 631272, 333828, 183014, 440924, 462102]
     seeds = [625334, 978591, 808154, 645720, 844728, 528891, 81069, 764075, 689287, 745405, 16692, 418235, 824162, 583268, 575452, 634679, 245025, 510449, 209072, 45445]
 
@@ -197,7 +197,7 @@ def main1():
             plot_avg_std(paths, f"./resources/w_{wolf}_s_{sheep}_avg.png")
 
 def main2():
-    wolfs = [0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.10]
+    wolfs = [0.01, 0.02, 0.03, 0.04, 0.05]
     sheeps = [0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.10]
     seeds = [625334, 978591, 808154, 645720, 844728, 528891, 81069, 764075, 689287, 745405, 16692, 418235, 824162, 583268, 575452, 634679, 245025, 510449, 209072, 45445]
 
@@ -227,6 +227,37 @@ def main2():
             plot_experiment(paths, f"./resources2/w_{wolf}_s_{sheep}.png")
             plot_avg_std(paths, f"./resources2/w_{wolf}_s_{sheep}_avg.png")
 
+def main3():
+    wolfs = [0.5]
+    sheeps = [0.7, 0.8, 0.9, 1]
+    seeds = [625334, 978591, 808154, 645720, 844728, 528891, 81069, 764075, 689287, 745405, 16692, 418235, 824162, 583268, 575452, 634679, 245025, 510449, 209072, 45445]
+
+    for wolf in wolfs:
+        for sheep in sheeps:
+            for seed in seeds:
+                args = {
+                    "width": 20,
+                    "height": 20,
+                    "initial_sheep": 50,
+                    "initial_wolves": 10,
+                    "sheep_reproduce": sheep,
+                    "wolf_reproduce": wolf,
+                    "wolf_gain_from_food": 20,
+                    "grass": True,
+                    "grass_regrowth_time": 20,
+                    "sheep_gain_from_food": 4, 
+                }
+                random.seed(seed)
+
+                model = WolfSheep(**args)
+                model.run_model()
+                data = model.datacollector.get_model_vars_dataframe()
+                data.to_csv(f"./exp/experiment_w_{wolf}_s_{sheep}_seed_{seed}.csv")
+
+            paths = [f"./exp/experiment_w_{wolf}_s_{sheep}_seed_{seed}.csv" for seed in seeds]
+            plot_experiment(paths, f"./resources3/w_{wolf}_s_{sheep}.png")
+            plot_avg_std(paths, f"./resources3/w_{wolf}_s_{sheep}_avg.png")
+
 
 if __name__ == "__main__":
-    main1()
+    main3()
