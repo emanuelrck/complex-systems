@@ -308,5 +308,72 @@ def main5():
     model = WolfSheep(**args)
     model.run_model()
 
+
+def main6():
+    #usar com agents 2
+    # wolfs = [0.6, 0.7, 0.8, 0.9, 1]
+    # sheeps = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]
+
+    wolfs = list(range(5, 40, 5))
+    sheeps = list(range(1, 10, 2))
+    seeds = [625334, 978591, 808154, 645720, 844728, 528891, 81069, 764075, 689287, 745405, 16692, 418235, 824162, 583268, 575452, 634679, 245025, 510449, 209072, 45445]
+
+    for wolf in wolfs:
+        for sheep in sheeps:
+            for seed in seeds:
+                args = {
+                    "width": 20,
+                    "height": 20,
+                    "initial_sheep": 50,
+                    "initial_wolves": 10,
+                    "sheep_reproduce": 0.05,
+                    "wolf_reproduce": 0.01,
+                    "wolf_gain_from_food": wolf,
+                    "grass": True,
+                    "grass_regrowth_time": 20,
+                    "sheep_gain_from_food": sheep, 
+                }
+                random.seed(seed)
+
+                model = WolfSheep(**args)
+                model.run_model()
+                data = model.datacollector.get_model_vars_dataframe()
+                data.to_csv(f"./exp/experiment_w_{wolf}_s_{sheep}_seed_{seed}.csv")
+
+            paths = [f"./exp/experiment_w_{wolf}_s_{sheep}_seed_{seed}.csv" for seed in seeds]
+            plot_experiment(paths, f"./resources5/w_{wolf}_s_{sheep}.png")
+            plot_avg_std(paths, f"./resources5/w_{wolf}_s_{sheep}_avg.png")
+
+def main7():
+    wolfs = list(range(10, 101, 20))
+    sheeps = list(range(30, 211, 20))
+    #seeds = [625334, 978591, 808154, 645720, 844728, 528891, 81069, 764075, 689287, 745405, 16692, 418235, 824162, 583268, 575452, 634679, 245025, 510449, 209072, 45445, 117572, 320780, 287801, 509272, 902392, 631272, 333828, 183014, 440924, 462102]
+    seeds = [625334, 978591, 808154, 645720, 844728, 528891, 81069, 764075, 689287, 745405, 16692, 418235, 824162, 583268, 575452, 634679, 245025, 510449, 209072, 45445]
+
+    for wolf in wolfs:
+        for sheep in sheeps:
+            for seed in seeds:
+                args = {
+                    "width": 20,
+                    "height": 20,
+                    "initial_sheep": sheep,
+                    "initial_wolves": wolf,
+                    "sheep_reproduce": 0.04,
+                    "wolf_reproduce": 0.05,
+                    "wolf_gain_from_food": 20,
+                    "grass": True,
+                    "grass_regrowth_time": 20,
+                    "sheep_gain_from_food": 4, 
+                }
+                random.seed(seed)
+
+                model = WolfSheep(**args)
+                model.run_model()
+                data = model.datacollector.get_model_vars_dataframe()
+                data.to_csv(f"./exp/experiment_w_{wolf}_s_{sheep}_seed_{seed}.csv")
+
+            paths = [f"./exp/experiment_w_{wolf}_s_{sheep}_seed_{seed}.csv" for seed in seeds]
+            plot_experiment(paths, f"./resources6/w_{wolf}_s_{sheep}.png")
+            plot_avg_std(paths, f"./resources6/w_{wolf}_s_{sheep}_avg.png")
 if __name__ == "__main__":
-    main5()
+    main7()
