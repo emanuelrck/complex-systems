@@ -1,6 +1,6 @@
 
 import mesa
-from agents import GrassPatch, Sheep, Wolf
+from agents3 import GrassPatch, Sheep, Wolf
 
 from typing import Type, Optional, Callable
 
@@ -292,6 +292,21 @@ def main4():
             plot_experiment(paths, f"./resources4/w_{wolf}_s_{sheep}.png")
             plot_avg_std(paths, f"./resources4/w_{wolf}_s_{sheep}_avg.png")
 
+def main5():
+    args = {
+        "width": 20,
+        "height": 20,
+        "initial_sheep": 50,
+        "initial_wolves": 10,
+        "sheep_reproduce": 0.05,
+        "wolf_reproduce": 0.01,
+        "wolf_gain_from_food": 35,
+        "grass": True,
+        "grass_regrowth_time": 20,
+        "sheep_gain_from_food": 3, 
+    }
+    model = WolfSheep(**args)
+    model.run_model()
 
 if __name__ == "__main__":
-    main4()
+    main5()
