@@ -1,4 +1,5 @@
 import mesa
+import random
 
 
 def generationToMonth(generation: int) -> int:
@@ -39,7 +40,12 @@ class RandomWalker(mesa.Agent):
         next_moves = self.model.grid.get_neighborhood(self.pos, self.moore, True)
         next_move = self.random.choice(next_moves)
         self.model.grid.move_agent(self, next_move)
-
+        #print("------------------")
+        #for move in next_moves:
+        #    this_cell = self.model.grid.get_cell_list_contents([move])
+        #    print(this_cell)
+        #print("------------------")
+        #grass_patch = next(obj for obj in this_cell if isinstance(obj, GrassPatch))
 
 class Sheep(RandomWalker):
     """
@@ -53,7 +59,7 @@ class Sheep(RandomWalker):
     def __init__(self, unique_id, pos, model, moore, energy=None):
         super().__init__(unique_id, pos, model, moore=moore)
         self.energy = energy
-        self.age = 0
+        self.age = random.randint(30, 50)
 
     def step(self):
         """
@@ -106,7 +112,7 @@ class Wolf(RandomWalker):
     def __init__(self, unique_id, pos, model, moore, energy=None):
         super().__init__(unique_id, pos, model, moore=moore)
         self.energy = energy
-        self.age = 0
+        self.age = random.randint(30, 70)
 
     def step(self):
         self.random_move()

@@ -116,15 +116,14 @@ class Wolf(RandomWalker):
         if self.energy < 0:
             self.model.grid.remove_agent(self)
             self.model.schedule.remove(self)
-        else:
-            if self.random.random() < self.model.wolf_reproduce:
-                # Create a new wolf cub
-                self.energy /= 2
-                cub = Wolf(
-                    self.model.next_id(), self.pos, self.model, self.moore, self.energy
-                )
-                self.model.grid.place_agent(cub, cub.pos)
-                self.model.schedule.add(cub)
+        elif self.random.random() < (self.energy/self.model.wolf_gain_from_food)/100:
+            # Create a new wolf cub
+            self.energy /= 2
+            cub = Wolf(
+                self.model.next_id(), self.pos, self.model, self.moore, self.energy
+            )
+            self.model.grid.place_agent(cub, cub.pos)
+            self.model.schedule.add(cub)
 
 
 class GrassPatch(mesa.Agent):
