@@ -391,7 +391,7 @@ def main6():
             plot_avg_std(paths, f"./resources5/w_{wolf}_s_{sheep}_avg.png")
 
 def main7():
-    wolfs = list(range(10, 101, 20))
+    wolfs = list(range(10, 51, 20))
     sheeps = list(range(30, 211, 20))
     seeds = [625334, 978591, 808154, 645720, 844728, 528891, 81069, 764075, 689287, 745405, 16692, 418235, 824162, 583268, 575452, 634679, 245025, 510449, 209072, 45445]
 
