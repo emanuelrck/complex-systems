@@ -1,6 +1,6 @@
 
 import mesa
-from agents2 import GrassPatch, Sheep, Wolf
+from agents3 import GrassPatch, Sheep, Wolf
 
 from typing import Type, Optional, Callable
 
@@ -317,7 +317,7 @@ def main5():
     plot_experiment(paths, f"./resources5/exp.png")
     plot_avg_std(paths, f"./resources5/exp_avg.png")
 
-def main6():
+def main8():
     args = {
         "width": 20,
         "height": 20,
@@ -333,7 +333,7 @@ def main6():
     model = WolfSheep(**args)
     model.run_model()
 
-def main7():
+def main9():
     seeds = [625334, 978591, 808154, 645720, 844728, 528891, 81069, 764075, 689287, 745405, 16692, 418235, 824162, 583268, 575452, 634679, 245025, 510449, 209072, 45445]
 
     for seed in seeds:
@@ -360,10 +360,6 @@ def main7():
 
 
 def main6():
-    #usar com agents 2
-    # wolfs = [0.6, 0.7, 0.8, 0.9, 1]
-    # sheeps = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]
-
     wolfs = list(range(5, 40, 5))
     sheeps = list(range(1, 10, 2))
     seeds = [625334, 978591, 808154, 645720, 844728, 528891, 81069, 764075, 689287, 745405, 16692, 418235, 824162, 583268, 575452, 634679, 245025, 510449, 209072, 45445]
@@ -397,7 +393,6 @@ def main6():
 def main7():
     wolfs = list(range(10, 101, 20))
     sheeps = list(range(30, 211, 20))
-    #seeds = [625334, 978591, 808154, 645720, 844728, 528891, 81069, 764075, 689287, 745405, 16692, 418235, 824162, 583268, 575452, 634679, 245025, 510449, 209072, 45445, 117572, 320780, 287801, 509272, 902392, 631272, 333828, 183014, 440924, 462102]
     seeds = [625334, 978591, 808154, 645720, 844728, 528891, 81069, 764075, 689287, 745405, 16692, 418235, 824162, 583268, 575452, 634679, 245025, 510449, 209072, 45445]
 
     for wolf in wolfs:
